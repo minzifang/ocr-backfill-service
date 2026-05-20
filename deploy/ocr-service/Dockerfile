@@ -1,0 +1,42 @@
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app/src \
+    OCR_BACKFILL_HOST=0.0.0.0 \
+    OCR_BACKFILL_PORT=8018 \
+    OCR_BACKFILL_ENGINE=paddleocr \
+    OCR_BACKFILL_LANG=ch \
+    OCR_BACKFILL_PRELOAD=1 \
+    OCR_PADDLE_DEVICE=cpu \
+    OCR_PADDLE_TEXTLINE_ORIENTATION=0 \
+    OCR_PADDLE_DOC_ORIENTATION=0 \
+    OCR_PADDLE_DOC_UNWARPING=0 \
+    OCR_BACKFILL_DOWNLOAD_WORKERS=8 \
+    OCR_BACKFILL_REQUEST_WORKERS=1 \
+    OCR_BACKFILL_OCR_WORKERS=2 \
+    FLAGS_use_mkldnn=0 \
+    FLAGS_enable_pir_api=0
+
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl \
+        libgomp1 \
+        libglib2.0-0 \
+        libgl1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements-ocr-service.txt /app/requirements-ocr-service.txt
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r /app/requirements-ocr-service.txt
+
+COPY src /app/src
+
+EXPOSE 8018
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=180s --retries=3 \
+    CMD curl -fsS http://127.0.0.1:8018/health || exit 1
+
+CMD ["python", "-m", "ocr_backfill.server"]

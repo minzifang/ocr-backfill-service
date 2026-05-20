@@ -1,0 +1,26 @@
+services:
+  ocr-backfill-cpu-fast:
+    build:
+      context: .
+      dockerfile: deploy/ocr-service/Dockerfile
+    image: ocr-backfill-paddle:0.2.10-cpu-fast
+    container_name: ocr-backfill-cpu-fast
+    restart: unless-stopped
+    ports:
+      - "8020:8018"
+    environment:
+      OCR_BACKFILL_ENGINE: paddleocr
+      OCR_BACKFILL_LANG: ch
+      OCR_BACKFILL_PRELOAD: "1"
+      OCR_PADDLE_DEVICE: cpu
+      OCR_PADDLE_TEXT_DETECTION_MODEL: PP-OCRv5_mobile_det
+      OCR_PADDLE_TEXT_RECOGNITION_MODEL: PP-OCRv5_mobile_rec
+      OCR_PADDLE_TEXTLINE_ORIENTATION: "0"
+      OCR_PADDLE_DOC_ORIENTATION: "0"
+      OCR_PADDLE_DOC_UNWARPING: "0"
+      OCR_BACKFILL_DOWNLOAD_WORKERS: "8"
+      OCR_BACKFILL_REQUEST_WORKERS: "1"
+      OCR_BACKFILL_OCR_WORKERS: "2"
+      OCR_BACKFILL_PORT: "8018"
+      FLAGS_use_mkldnn: "0"
+      FLAGS_enable_pir_api: "0"

@@ -1,0 +1,17 @@
+services:
+  ocr-backfill-rapid:
+    build:
+      context: .
+      dockerfile: deploy/ocr-service/Dockerfile.rapid
+    image: ocr-backfill-rapid:0.2.10
+    container_name: ocr-backfill-rapid
+    restart: unless-stopped
+    ports:
+      - "8021:8018"
+    environment:
+      OCR_BACKFILL_ENGINE: rapidocr
+      OCR_BACKFILL_LANG: ch
+      OCR_BACKFILL_PRELOAD: "1"
+      OCR_BACKFILL_DOWNLOAD_WORKERS: "8"
+      OCR_BACKFILL_OCR_WORKERS: "4"
+      OCR_BACKFILL_PORT: "8018"

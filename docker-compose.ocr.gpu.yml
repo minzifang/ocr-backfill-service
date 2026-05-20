@@ -1,0 +1,24 @@
+services:
+  ocr-backfill:
+    build:
+      context: .
+      dockerfile: deploy/ocr-service/Dockerfile.gpu
+    image: ocr-backfill-paddle:0.2.10-gpu-cu118
+    container_name: ocr-backfill
+    restart: unless-stopped
+    ports:
+      - "8018:8018"
+    gpus: all
+    shm_size: "8g"
+    environment:
+      OCR_BACKFILL_ENGINE: paddleocr
+      OCR_BACKFILL_LANG: ch
+      OCR_BACKFILL_PRELOAD: "1"
+      OCR_PADDLE_DEVICE: gpu:0
+      OCR_BACKFILL_DOWNLOAD_WORKERS: "8"
+      OCR_BACKFILL_OCR_WORKERS: "2"
+      OCR_BACKFILL_PORT: "8018"
+      FLAGS_use_mkldnn: "0"
+      FLAGS_enable_pir_api: "0"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility

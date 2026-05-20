@@ -1,0 +1,40 @@
+[project]
+name = "ocr-backfill-service"
+version = "0.2.10"
+description = "Markdown image OCR backfill HTTP service for Dify document parsing workflows."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "fastapi>=0.115.0,<1.0.0",
+    "pillow>=10.0.0,<13.0.0",
+    "requests>=2.32.0,<3.0.0",
+    "uvicorn[standard]>=0.30.0,<1.0.0",
+]
+
+[project.optional-dependencies]
+paddle = [
+    "paddleocr==3.2.0",
+    "paddlepaddle==3.2.2",
+    "paddlex==3.2.1",
+]
+rapid = [
+    "onnxruntime>=1.20.0,<2.0.0",
+    "rapidocr>=3.8.1,<4.0.0",
+]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+ocr-backfill = "ocr_backfill.cli:main"
+ocr-backfill-server = "ocr_backfill.server:main"
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
