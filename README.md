@@ -80,7 +80,7 @@ MIT. See [LICENSE](LICENSE).
 
 ## 中文说明
 
-这是从 `SQZSKRAGAS` 拆出的独立 OCR 回填服务，用于放在 Dify 文档解析节点之后、分块入库之前。它扫描 Markdown 中的图片引用，对图片执行 OCR，并把识别结果插回图片原位置后面。
+OCR Backfill Service 是一个用于 Markdown 图片 OCR 回填的 HTTP/CLI 服务，适合放在 Dify 文档解析节点之后、分块入库之前。它扫描 Markdown 中的图片引用，对图片执行 OCR，并把识别结果插回图片原位置后面。
 
 典型链路：
 
@@ -242,8 +242,4 @@ http://ocr-backfill:8018/v1/ocr-backfill
 http://<host-ip>:8018/v1/ocr-backfill
 ```
 
-配套 Dify 插件已拆到：
-
-```text
-../dify-ocr-backfill-plugin
-```
+也可以通过 Dify HTTP 节点或兼容的 Dify 工具插件调用这个接口。

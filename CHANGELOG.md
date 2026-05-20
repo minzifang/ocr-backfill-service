@@ -2,8 +2,7 @@
 
 ## 0.2.10 - 2026-05-20
 
-- 从 `SQZSKRAGAS` 拆出为独立 `ocr-backfill-service` 项目，放到 `Www` 目录下维护。
-- 新增独立 `pyproject.toml`、README 和服务级变更记录，保留 Docker Compose、Dockerfile、requirements、测试与打包脚本。
+- 发布独立开源项目结构，包含 `pyproject.toml`、README、Docker Compose、Dockerfile、requirements、测试与打包脚本。
 - 补齐开源仓库配置：MIT License、双语 README、贡献指南、安全政策、行为准则、Issue/PR 模板和 GitHub Actions CI。
 - 清理公开文档中的内网地址示例，改用占位符地址。
 
